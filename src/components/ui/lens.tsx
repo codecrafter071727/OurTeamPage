@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion } from "@motionone/react";
+import { motion } from "@motionone/react";
 
 interface LensProps {
   children: React.ReactNode;
@@ -61,7 +61,7 @@ export const Lens: React.FC<LensProps> = ({
             initial={{ opacity: 0, scale: 0.58 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.3 }} // Removed 'ease: "easeOut"' as it's not supported
             className="absolute inset-0 overflow-hidden"
             style={{
               maskImage: `radial-gradient(circle ${lensSize / 2}px at ${
@@ -85,14 +85,14 @@ export const Lens: React.FC<LensProps> = ({
           </motion.div>
         </div>
       ) : (
-        <AnimatePresence>
+        <>
           {isHovering && (
             <div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.58 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.3 }} // Removed 'ease: "easeOut"' as it's not supported
                 className="absolute inset-0 overflow-hidden"
                 style={{
                   maskImage: `radial-gradient(circle ${lensSize / 2}px at ${
@@ -119,7 +119,7 @@ export const Lens: React.FC<LensProps> = ({
               </motion.div>
             </div>
           )}
-        </AnimatePresence>
+        </>
       )}
     </div>
   );

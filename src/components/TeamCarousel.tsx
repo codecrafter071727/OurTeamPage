@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from '@motionone/react';
 import { Lens } from '@/components/ui/lens';
-import { LinkedIn } from 'lucide-react';
+import { Linkedin } from 'lucide-react'; // Fixed: LinkedIn -> Linkedin
 import teamMembers from '@/data/team.json';
 import { cn } from '@/lib/utils';
 
@@ -26,13 +26,13 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
         "flex-shrink-0 w-72 h-[400px] rounded-2xl bg-gradient-to-b from-zinc-800/80 to-black/80 border border-purple-500/20 backdrop-blur-sm p-5 mx-4 overflow-hidden transition-all duration-300",
         isActive ? "scale-105 border-purple-500/50" : "scale-95 opacity-70"
       )}
-      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      // Removed whileHover as it's not supported in @motionone/react
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div 
-        className="relative w-full h-64 mb-4 rounded-xl overflow-hidden"
+        className="relative w-full h-64 mb-4 rounded-xl overflow-hidden cursor-pointer transform transition-transform duration-200 hover:scale-[1.02]"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -55,7 +55,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
           rel="noopener noreferrer"
           className="p-2 bg-purple-600/20 rounded-full hover:bg-purple-600/50 transition-colors duration-300"
         >
-          <LinkedIn className="w-5 h-5 text-white" />
+          <Linkedin className="w-5 h-5 text-white" />
         </a>
       </div>
     </motion.div>
