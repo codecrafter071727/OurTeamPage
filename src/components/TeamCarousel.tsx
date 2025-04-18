@@ -22,9 +22,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
   return (
     <motion.div 
       className={cn(
-        "relative flex-shrink-0 w-[400px] h-[500px] rounded-[30px] overflow-hidden mx-4",
+        "relative flex-shrink-0 w-[280px] h-[380px] rounded-[20px] overflow-hidden mx-3",
         "bg-gradient-to-br from-purple-900/50 via-black/80 to-black/90",
-        "border border-purple-500/10 backdrop-blur-lg shadow-2xl",
+        "border border-purple-500/10 backdrop-blur-lg",
         "transform transition-all duration-500",
         isActive ? "scale-100" : "scale-95 opacity-75"
       )}
@@ -33,7 +33,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
       transition={{ duration: 0.5 }}
     >
       <div 
-        className="relative w-full h-[350px] overflow-hidden cursor-pointer group"
+        className="relative w-full h-[260px] overflow-hidden cursor-pointer group"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -47,21 +47,21 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
         <div className="flex justify-between items-end">
           <div className="text-left">
-            <h3 className="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h3 className="text-2xl font-bold text-white mb-1 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               {member.name}
             </h3>
-            <p className="text-purple-300 text-lg font-medium">{member.role}</p>
+            <p className="text-purple-300 text-sm font-medium">{member.role}</p>
           </div>
           <a 
             href={member.linkedin} 
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 bg-purple-600/20 rounded-full hover:bg-purple-600/50 transition-colors duration-300 transform hover:scale-110"
+            className="p-2 bg-purple-600/20 rounded-full hover:bg-purple-600/50 transition-colors duration-300 transform hover:scale-110"
           >
-            <Linkedin className="w-6 h-6 text-purple-300" />
+            <Linkedin className="w-4 h-4 text-purple-300" />
           </a>
         </div>
       </div>
@@ -100,13 +100,27 @@ const TeamCarousel: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isDragging) {
-        scrollToNextCard();
+      if (!isDragging && containerRef.current) {
+        const cardWidth = 286; // 280px + 6px margin
+        const scrollAmount = containerRef.current.scrollLeft + cardWidth;
+        const maxScroll = containerRef.current.scrollWidth - containerRef.current.clientWidth;
+        
+        if (scrollAmount >= maxScroll) {
+          containerRef.current.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+          });
+        } else {
+          containerRef.current.scrollTo({
+            left: scrollAmount,
+            behavior: 'smooth'
+          });
+        }
       }
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [activeIndex, isDragging]);
+  }, [isDragging]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -176,7 +190,7 @@ const TeamCarousel: React.FC = () => {
           >
             <TeamCard 
               member={member} 
-              isActive={index === activeIndex} 
+              isActive={true} 
             />
           </div>
         ))}
