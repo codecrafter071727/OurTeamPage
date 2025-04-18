@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import AnimatedBackground from '@/components/ui/AnimatedBackground';
 import TeamCarousel from '@/components/TeamCarousel';
 import { motion } from '@motionone/react';
@@ -9,10 +9,6 @@ const Team: React.FC = () => {
     <div className="min-h-screen w-full bg-black overflow-hidden relative">
       {/* Animated dotted background */}
       <AnimatedBackground />
-      
-      {/* Purple gradient effects */}
-      <div className="absolute top-[-150px] left-[-150px] w-[500px] h-[500px] bg-purple-700/30 rounded-full blur-[120px] z-0" />
-      <div className="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-[100px] z-0" />
       
       {/* Content */}
       <div className="container mx-auto px-4 py-16 relative z-10">
@@ -41,3 +37,4 @@ const Team: React.FC = () => {
 };
 
 export default Team;
+

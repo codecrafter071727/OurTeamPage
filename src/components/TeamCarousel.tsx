@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from '@motionone/react';
 import { Lens } from '@/components/ui/lens';
@@ -175,7 +176,7 @@ const TeamCarousel: React.FC = () => {
     >
       <div 
         ref={containerRef}
-        className="flex overflow-x-auto scrollbar-none pb-8 pt-4 px-4 max-w-[95vw] mx-auto scroll-smooth"
+        className="flex overflow-x-auto scrollbar-none pb-8 pt-4 px-4 max-w-[95vw] mx-auto scroll-smooth bg-black" // Updated background to pure black
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
@@ -200,3 +201,4 @@ const TeamCarousel: React.FC = () => {
 };
 
 export default TeamCarousel;
+
