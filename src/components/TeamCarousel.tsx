@@ -1,8 +1,7 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from '@motionone/react';
 import { Lens } from '@/components/ui/lens';
-import { Linkedin } from 'lucide-react'; // Fixed: LinkedIn -> Linkedin
+import { Linkedin } from 'lucide-react';
 import teamMembers from '@/data/team.json';
 import { cn } from '@/lib/utils';
 
@@ -23,16 +22,15 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
   return (
     <motion.div 
       className={cn(
-        "flex-shrink-0 w-72 h-[400px] rounded-2xl bg-gradient-to-b from-zinc-800/80 to-black/80 border border-purple-500/20 backdrop-blur-sm p-5 mx-4 overflow-hidden transition-all duration-300",
+        "flex-shrink-0 w-80 h-[450px] rounded-2xl bg-gradient-to-b from-zinc-800/80 to-black/80 border border-purple-500/20 backdrop-blur-sm p-6 mx-3 overflow-hidden transition-all duration-500",
         isActive ? "scale-105 border-purple-500/50" : "scale-95 opacity-70"
       )}
-      // Removed whileHover as it's not supported in @motionone/react
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div 
-        className="relative w-full h-64 mb-4 rounded-xl overflow-hidden cursor-pointer transform transition-transform duration-200 hover:scale-[1.02]"
+        className="relative w-full h-72 mb-6 rounded-xl overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-[1.02] group"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -43,17 +41,18 @@ const TeamCard: React.FC<TeamCardProps> = ({ member, isActive }) => {
             className="w-full h-full object-cover"
           />
         </Lens>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       <div className="flex justify-between items-start">
         <div className="text-left">
-          <h3 className="text-xl font-bold text-white">{member.name}</h3>
+          <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
           <p className="text-purple-300 text-sm">{member.role}</p>
         </div>
         <a 
           href={member.linkedin} 
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 bg-purple-600/20 rounded-full hover:bg-purple-600/50 transition-colors duration-300"
+          className="p-2.5 bg-purple-600/20 rounded-full hover:bg-purple-600/50 transition-colors duration-300"
         >
           <Linkedin className="w-5 h-5 text-white" />
         </a>
@@ -69,21 +68,36 @@ const TeamCarousel: React.FC = () => {
   const [dragStartX, setDragStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  useEffect(() => {
-    const autoScrollInterval = setInterval(() => {
-      if (!isDragging && containerRef.current) {
-        const nextIndex = (activeIndex + 1) % teamMembers.length;
-        setActiveIndex(nextIndex);
-        
-        const cardWidth = 288; // 272px + 16px margin
+  const scrollToNextCard = () => {
+    if (containerRef.current) {
+      const nextIndex = (activeIndex + 1) % teamMembers.length;
+      setActiveIndex(nextIndex);
+      
+      const cardWidth = 344; // 320px + 24px margin
+      const targetScroll = nextIndex * cardWidth;
+      
+      if (nextIndex === 0) {
         containerRef.current.scrollTo({
-          left: nextIndex * cardWidth,
+          left: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        containerRef.current.scrollTo({
+          left: targetScroll,
           behavior: 'smooth'
         });
       }
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isDragging) {
+        scrollToNextCard();
+      }
     }, 3000);
 
-    return () => clearInterval(autoScrollInterval);
+    return () => clearInterval(interval);
   }, [activeIndex, isDragging]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -96,7 +110,7 @@ const TeamCarousel: React.FC = () => {
     setIsDragging(false);
     
     if (containerRef.current) {
-      const cardWidth = 288;
+      const cardWidth = 344;
       const newIndex = Math.round(containerRef.current.scrollLeft / cardWidth);
       setActiveIndex(newIndex);
       
@@ -122,7 +136,7 @@ const TeamCarousel: React.FC = () => {
   const handleScroll = () => {
     if (isDragging || !containerRef.current) return;
     
-    const cardWidth = 288;
+    const cardWidth = 344;
     const newIndex = Math.round(containerRef.current.scrollLeft / cardWidth);
     
     if (newIndex !== activeIndex) {
@@ -132,24 +146,23 @@ const TeamCarousel: React.FC = () => {
 
   return (
     <motion.div 
-      className="w-full max-w-7xl mx-auto px-4 relative z-10 py-8"
+      className="w-full relative z-10 py-12"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
       <div 
         ref={containerRef}
-        className="flex overflow-x-auto scrollbar-none scroll-smooth pb-6 pt-8 px-4"
+        className="flex overflow-x-auto scrollbar-none scroll 0 0 0 0 smooth pb-8 pt-4 px-4 max-w-[90vw] mx-auto"
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         onMouseMove={handleMouseMove}
-        onScroll={handleScroll}
         style={{ scrollSnapType: 'x mandatory' }}
       >
-        {teamMembers.map((member, index) => (
+        {teamMembers.concat(teamMembers.slice(0, 3)).map((member, index) => (
           <div 
-            key={member.id}
+            key={`${member.id}-${index}`}
             className="flex-shrink-0 scroll-snap-align-start"
             style={{ scrollSnapAlign: 'start' }}
           >
@@ -161,11 +174,11 @@ const TeamCarousel: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex justify-center mt-8 space-x-2">
         {teamMembers.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               index === activeIndex 
                 ? 'bg-purple-500 scale-110' 
                 : 'bg-gray-600 hover:bg-gray-500'
@@ -173,7 +186,7 @@ const TeamCarousel: React.FC = () => {
             onClick={() => {
               setActiveIndex(index);
               containerRef.current?.scrollTo({
-                left: index * 288,
+                left: index * 344,
                 behavior: 'smooth'
               });
             }}

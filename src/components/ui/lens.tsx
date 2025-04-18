@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useState } from "react";
@@ -60,16 +59,11 @@ export const Lens: React.FC<LensProps> = ({
           <motion.div
             initial={{ opacity: 0, scale: 0.58 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }} // Removed 'ease: "easeOut"' as it's not supported
+            transition={{ duration: 0.3 }}
             className="absolute inset-0 overflow-hidden"
             style={{
-              maskImage: `radial-gradient(circle ${lensSize / 2}px at ${
-                position.x
-              }px ${position.y}px, black 100%, transparent 100%)`,
-              WebkitMaskImage: `radial-gradient(circle ${lensSize / 2}px at ${
-                position.x
-              }px ${position.y}px, black 100%, transparent 100%)`,
+              maskImage: `radial-gradient(circle ${lensSize / 2}px at ${position.x}px ${position.y}px, black 100%, transparent 100%)`,
+              WebkitMaskImage: `radial-gradient(circle ${lensSize / 2}px at ${position.x}px ${position.y}px, black 100%, transparent 100%)`,
               transformOrigin: `${position.x}px ${position.y}px`,
             }}
           >
@@ -91,18 +85,11 @@ export const Lens: React.FC<LensProps> = ({
               <motion.div
                 initial={{ opacity: 0, scale: 0.58 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3 }} // Removed 'ease: "easeOut"' as it's not supported
+                transition={{ duration: 0.3 }}
                 className="absolute inset-0 overflow-hidden"
                 style={{
-                  maskImage: `radial-gradient(circle ${lensSize / 2}px at ${
-                    mousePosition.x
-                  }px ${mousePosition.y}px, black 100%, transparent 100%)`,
-                  WebkitMaskImage: `radial-gradient(circle ${
-                    lensSize / 2
-                  }px at ${mousePosition.x}px ${
-                    mousePosition.y
-                  }px, black 100%, transparent 100%)`,
+                  maskImage: `radial-gradient(circle ${lensSize / 2}px at ${mousePosition.x}px ${mousePosition.y}px, black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(circle ${lensSize / 2}px at ${mousePosition.x}px ${mousePosition.y}px, black 100%, transparent 100%)`,
                   transformOrigin: `${mousePosition.x}px ${mousePosition.y}px`,
                   zIndex: 50,
                 }}
