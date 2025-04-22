@@ -1,19 +1,3 @@
-# Welcome to your Lovable project
-
-## Project info
-
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
 
 Follow these steps:
@@ -32,24 +16,3 @@ npm i --legacy-peer-deps
 npm run dev --legacy-peer-deps
 ```
 
-
-
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-
-
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
